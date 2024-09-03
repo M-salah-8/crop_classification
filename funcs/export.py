@@ -13,7 +13,7 @@ def Composite(aoi, date, data_source):
                       .mean()
   return sentinel2_w
 
-def getWeeklySentinelComposite(startDate, endDate, data_source):
+def getWeeklySentinelComposite(startDate, endDate, data_source, aoi):
 	weekDifference = ee.Date(startDate).advance(1, 'week').millis().subtract(ee.Date(startDate).millis())
 	listMap = ee.List.sequence(ee.Date(startDate).millis(), ee.Date(endDate).millis(), weekDifference)
 	sentinel2_weekly = ee.ImageCollection.fromImages(listMap.map(lambda dateMillis: Composite(aoi, ee.Date(dateMillis), data_source).set('date', ee.Date(dateMillis).format('YYYY-MM-dd'))))
